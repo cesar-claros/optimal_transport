@@ -15,7 +15,7 @@ ignore = ["node_modules/"]
 generate_rss = true
 website_title = "Franklin Template"
 website_descr = "Example website using Franklin"
-prepath = "OTsite"
+prepath = "optimal_transport"
 website_url   = "https://cesar-claros.github.io/"
 +++
 

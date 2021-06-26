@@ -23,7 +23,7 @@ jobs:
     - name: Install Julia
       uses: julia-actions/setup-julia@v1
       with:
-        version: 1.5
+        version: 1.6
     # NOTE
     #   The steps below ensure that NodeJS and Franklin are loaded then it
     #   installs highlight.js which is needed for the prerendering step
@@ -34,10 +34,14 @@ jobs:
     #   specific arguments, see the documentation or ?optimize in the REPL.
     - run: julia -e '
             using Pkg; Pkg.activate("."); Pkg.instantiate();
+            Pkg.add("JSON");
+            Pkg.add("Pluto");
             using NodeJS; 
+            using JSON;
             using Franklin;
-            run(`$(npm_cmd()) install highlight.js`);
-            optimize()'
+            using Pluto;
+            run(`sudo $(npm_cmd()) install highlight.js`);
+            optimize(; minify=false)'
     - name: Build and Deploy
       uses: JamesIves/github-pages-deploy-action@releases/v3
       with:

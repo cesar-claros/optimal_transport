@@ -36,12 +36,11 @@ jobs:
             using Pkg; Pkg.activate("."); Pkg.instantiate();
             Pkg.add("JSON");
             Pkg.add("Pluto");
-            using NodeJS; 
+            using NodeJS; run(`sudo $(npm_cmd()) install highlight.js`);
             using JSON;
             using Pluto;
             "== Run Franklin ==";
             cd("website");
-            run(`sudo $(npm_cmd()) install highlight.js`);
             using Franklin;
             optimize(; minify=false)'
     - name: Build and Deploy

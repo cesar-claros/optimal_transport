@@ -17,6 +17,14 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: '3.8'
+    # NOTE: Cache Pluto notebooks state
+    - name: Set up notebook state cache
+      uses: actions/cache@v2
+      with:
+        path: pluto_state_cache
+        key: ${{ runner.os }}-pluto_state_cache-v2-${{ hashFiles('**/Project.toml', '**/Manifest.toml') }}-${{ hashFiles('**/*.jl') }}
+        restore-keys: |
+            ${{ runner.os }}-pluto_state_cache-v2-${{ hashFiles('**/Project.toml', '**/Manifest.toml') }}
     # NOTE: Here you can install dependencies such as matplotlib if you use
     # packages such as PyPlot.
     # - run: pip install matplotlib

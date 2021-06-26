@@ -34,6 +34,7 @@ jobs:
     #   specific arguments, see the documentation or ?optimize in the REPL.
     - run: julia -e '
             using Pkg; Pkg.activate("."); Pkg.instantiate();
+            Pkg.add("NodeJS")
             Pkg.add("JSON");
             Pkg.add("Pluto");
             using NodeJS; run(`sudo $(npm_cmd()) install highlight.js`);

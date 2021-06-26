@@ -38,9 +38,11 @@ jobs:
             Pkg.add("Pluto");
             using NodeJS; 
             using JSON;
-            using Franklin;
             using Pluto;
+            "== Run Franklin ==";
+            cd("website");
             run(`sudo $(npm_cmd()) install highlight.js`);
+            using Franklin;
             optimize(; minify=false)'
     - name: Build and Deploy
       uses: JamesIves/github-pages-deploy-action@releases/v3

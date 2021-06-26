@@ -35,9 +35,9 @@ jobs:
     - run: julia -e '
             using Pkg; Pkg.activate("."); Pkg.instantiate();
             Pkg.add("NodeJS");
-            run(`sudo $(npm_cmd()) install highlight.js`);
-            Pkg.add(["JSON", "Franklin", "Pluto"]);
             using NodeJS;
+            run(`sudo $(npm_cmd()) install highlight.js`);
+            Pkg.add(["JSON","Franklin","Pluto"]);
             using JSON;
             using Pluto;
             "== Run Franklin ==";

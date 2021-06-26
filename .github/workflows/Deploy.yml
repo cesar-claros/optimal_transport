@@ -35,16 +35,14 @@ jobs:
     - run: julia -e '
             using Pkg; Pkg.activate("."); Pkg.instantiate();
             Pkg.add("NodeJS");
-            Pkg.add("JSON");
-            Pkg.add("Franklin");
-            Pkg.add("Pluto");
+            run(`sudo $(npm_cmd()) install highlight.js`);
+            Pkg.add(["JSON", "Franklin", "Pluto"]);
             using NodeJS;
             using JSON;
             using Pluto;
             "== Run Franklin ==";
             cd("website");
             using Franklin;
-            run(`sudo $(npm_cmd()) install highlight.js`);
             optimize(; minify=false)'
     - name: Build and Deploy
       uses: JamesIves/github-pages-deploy-action@releases/v3

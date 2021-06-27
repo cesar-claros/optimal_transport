@@ -10,5 +10,5 @@ create_index = false
 [SliderServer]
 exclude=[
     # these are in the repo but not used on the website
-    "../notebooks/color_transfer_ds.jl",
+    "notebooks/color_transfer_ds.jl",
 ]

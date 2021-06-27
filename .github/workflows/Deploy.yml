@@ -59,7 +59,9 @@ jobs:
             "== Run Franklin ==";
             cd("website");
             using Franklin;
-            optimize(; minify=false)'
+            optimize(; minify=false);
+            "== Place rendered notebooks in the website folder ==";
+            cp("../notebooks", "../__site/notebooks");'
     - name: Build and Deploy
       uses: JamesIves/github-pages-deploy-action@releases/v3
       with:

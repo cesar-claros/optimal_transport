@@ -60,11 +60,11 @@ jobs:
             "== Run Franklin ==";
             cd("website");
 
-            run(`sudo $(npm_cmd()) install highlight.js`);
+            run(`$(npm_cmd()) install highlight.js`);
             using Franklin;
             optimize(; minify=false);
             "== Place rendered notebooks in the website folder ==";
-            cp("../notebooks", "../__site/notebooks");'
+            cp("../notebooks", "__site/notebooks");'
 
     - name: Build and Deploy
       uses: JamesIves/github-pages-deploy-action@releases/v3

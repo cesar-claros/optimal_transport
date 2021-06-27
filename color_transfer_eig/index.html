@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="/optimal_transport/css/jtd.css">
   <link rel="icon" href="/optimal_transport/assets/favicon.ico">
 
-   <title>404</title>  
+   <title></title>  
 </head>
 <body>                      <!-- closed in foot.html -->
 <div class="page-wrap">   <!-- closed in foot.html -->
@@ -27,7 +27,7 @@
         <li class="menu-list-item "><a href="/optimal_transport/menu1/" class="menu-list-link ">Code blocks</a>
         <li class="menu-list-item "><a href="/optimal_transport/menu2/" class="menu-list-link ">More goodies</a>
         <li class="menu-list-item "><a href="/optimal_transport/menu3/" class="menu-list-link ">Tags</a>
-        <li class="menu-list-item "><a href="/optimal_transport/color_transfer_eig/" class="menu-list-link ">Notebook</a>
+        <li class="menu-list-item active"><a href="/optimal_transport/color_transfer_eig/" class="menu-list-link active">Notebook</a>
           <ul class="menu-list-child-list ">
             <li class="menu-list-item "><a href="#" class="menu-list-link">Submenu</a>
           </ul>
@@ -47,30 +47,40 @@
 
 
 <!-- Content appended here (in class franklin-content) -->
-<div class="franklin-content">
-<div style="margin-top: 40px; font-size: 40px; text-align: center;">
+<div class="franklin-content"><style>
+.content {
+    max-width: 100%;
+    margin-right: 0px;
+    padding: 0px;
+    overflow-y: hidden;
+    height: 100vh;
+}
+.franklin-content {
+    padding: 0px;
+}
+.page-foot {
+    display: none;
+}
+.plutopage {
+    height: 100vh;
+}
+.smallscreenlink {
+    display: none;
+}
+@media (max-width: 768px) {
+    .franklin-content {
+        padding: 0px;
+    }
+}
+</style>
 
-  <br>
-
-  <div style="font-weight: bold;">
-    404
-  </div>
-
-  <br>
-  <br>
-
-    The requested page was not found
-
-  <br>
-  <br>
-  <br>
-  <br>
-
-  <div style="margin-bottom: 300px; font-size: 24px">
-    <a href="/optimal_transport/">Click here</a> to go back to the homepage.
-  </div>
-
-</div>
+<iframe width="100%" height="100%"
+src="../notebooks/color_transfer_eig.html"
+class="plutopage"
+frameborder="0"
+allow="accelerometer; ambient-light-sensor; autoplay; battery; camera; display-capture; document-domain; encrypted-media; execution-while-not-rendered; execution-while-out-of-viewport; fullscreen; geolocation; gyroscope; layout-animations; legacy-image-formats; magnetometer; microphone; midi; navigation-override; oversized-images; payment; picture-in-picture; publickey-credentials-get; sync-xhr; usb; wake-lock; screen-wake-lock; vr; web-share; xr-spatial-tracking"
+allowfullscreen></iframe>
+<a class="smallscreenlink" href="../notebooks/color_transfer_eig.html"></a>
 
 <div class="page-foot">
   <div class="copyright">

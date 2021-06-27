@@ -54,8 +54,6 @@ jobs:
             using NodeJS;
             run(`sudo $(npm_cmd()) install highlight.js`);
             Pkg.add(["JSON","Franklin","Pluto"]);
-            using JSON;
-            using Pluto;
             "== Run Franklin ==";
             cd("website");
             using Franklin;

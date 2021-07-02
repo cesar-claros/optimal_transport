@@ -52,11 +52,13 @@ jobs:
             using Pkg;
                   Pkg.add([
                   Pkg.PackageSpec(name="NodeJS", version="1.1.1"),
+                  ]);
+            using NodeJS;
+            using Pkg;
+                  Pkg.add([
                   Pkg.PackageSpec(name="JSON", version="0.21.1"),
                   Pkg.PackageSpec(name="Franklin", version="0.10.28"),
                   ]);
-            using NodeJS;
-
             "== Run Franklin ==";
             cd("website");
 
@@ -64,7 +66,7 @@ jobs:
             using Franklin;
             optimize(; minify=false);
             "== Place rendered notebooks in the website folder ==";
-            cp("../notebooks", "__site/notebooks");'
+            cp("../notebooks", "__site/notebooks"; force=true);'
 
     - name: Build and Deploy
       uses: JamesIves/github-pages-deploy-action@releases/v3

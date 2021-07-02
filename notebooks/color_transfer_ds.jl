@@ -13,6 +13,29 @@ macro bind(def, element)
     end
 end
 
+# ╔═╡ 51cebec0-6dc8-418e-b515-612284bf6191
+begin
+	import Pkg
+	Pkg.activate(mktempdir())
+	Pkg.add(["Plots",
+			"GR", 
+			"Images",
+	 		"FileIO",
+			"ImageMagick",
+			"ImageIO",
+			"ImageTransformations",
+			"LinearAlgebra",
+			"Optim",
+	 		"Arpack",
+			"Flux",
+			"Statistics",
+			"Colors",
+			"PlutoUI",
+			"Random",
+			"Zygote",
+			])
+end
+
 # ╔═╡ 3bb5ad9e-c64b-11eb-10bf-6fec84dec527
 begin
 	using Images
@@ -31,8 +54,17 @@ begin
 	using PlutoUI
 	using Random
 	using Zygote: @adjoint
-	using Distances
 end
+
+# ╔═╡ c9ccc5a2-7ac1-4101-bc1f-52cb3c3675c3
+TableOfContents()
+
+# ╔═╡ 14750130-5ba3-4630-ad7a-a09bfb7aa1e6
+md"""
+# Max-sliced Bures Distance for Interpreting Discrepancies
+## Color transfer task using distributional sliced Bures and Wasserstein 
+**July, 2021**
+"""
 
 # ╔═╡ 8e376434-6577-4a58-8017-66d9310550d6
 begin
@@ -47,9 +79,9 @@ begin
 	selections = imgs_keys .=> imgs_keys
 	lookup_element = Dict(imgs_keys .=> imgs)
 	md"""
-	Source image:$(@bind url_source_key Select(selections))
+	Source image:$(@bind url_source_key Select(selections; default=imgs_keys[6]))
 	
-	Target image:$(@bind url_target_key Select(selections))
+	Target image:$(@bind url_target_key Select(selections; default=imgs_keys[5]))
 	"""
 end
 
@@ -80,7 +112,7 @@ end
 
 # ╔═╡ 4ed3711d-29b9-4561-9f2b-121266e8ea95
 begin
-	Eˢᵇ = (w,ρX,ρY) -> mean( (.√(eachcol(w).⋅eachcol(ρX*w))-.√(eachcol(w).⋅eachcol(ρY*w)))./(eachcol(w).⋅eachcol(w)) ) 
+	Eˢᵇ = (w,ρX,ρY) -> mean( (.√(eachcol(w).⋅eachcol(ρX*w))-.√(eachcol(w).⋅eachcol(ρY*w)))./(eachcol(w).⋅eachcol(w))) 
 	Eˢʷ = (w,X,Y) -> mean( norm.( sort.(eachcol(X'*w))-sort.(eachcol(Y'*w)), 2) )
 	cos_dist = (Xₚ,Yₚ)->mean( (Xₚ*Yₚ')/(norm.(eachcol(Xₚ))⋅norm.(eachcol(Yₚ))) )
 end
@@ -91,7 +123,7 @@ function distributional_sliced(X, Y, ℓ, nₚᵣₒⱼ, η=0.01, λ=1.0)
 	# fᵦ = Dense(size(X)[1], size(X)[1])
 	w = rand(size(X)[1], nₚᵣₒⱼ)
 	optimizer = ADAM(η)
-	for iter in 1:100
+	for iter in 1:50
 		proj = fᵦ(w)
 		cᵩ = cos_dist(proj,proj)
 		reg = λ*cᵩ
@@ -100,14 +132,13 @@ function distributional_sliced(X, Y, ℓ, nₚᵣₒⱼ, η=0.01, λ=1.0)
 			return -ℓ(fᵦ(w),X,Y)+reg
 		end
 		update!(optimizer, params(fᵦ), grads)
-		println(-ℓ(fᵦ(w),X,Y)+reg)
 	end
 	return proj = fᵦ(w)
 end
 
 # ╔═╡ ed1f3b23-e1c6-4677-8826-984b6fbcf05c
 function get_distributional_slice(X, Y, nₚᵣₒⱼ, d_type="wasserstein")
-	if d_type == "bures"
+	if d_type == "Bures"
 		ℓ = Eˢᵇ
 		ρX = X*X'
 		ρY = Y*Y'
@@ -118,7 +149,7 @@ function get_distributional_slice(X, Y, nₚᵣₒⱼ, d_type="wasserstein")
 		else
 			w⃰ = wᵤᵥ
 		end
-	elseif d_type == "wasserstein"
+	elseif d_type == "Wasserstein"
 		ℓ = Eˢʷ
 		w⃰ = distributional_sliced(X, Y, ℓ, nₚᵣₒⱼ)
 	end
@@ -128,35 +159,59 @@ end
 # ╔═╡ abe6ebdb-c446-4fdb-ac5c-669d3c8e36ba
 begin
 	# imgs = [img1_url, img2_url, img3_url, img4_url, img5_url, img6_url]
-	distance_keys = ["bures", "wasserstein"]
+	distance_keys = ["Bures", "Wasserstein"]
 	d_selections = distance_keys .=> distance_keys
+	
+	transformation_keys = ["sliced ot", "affine", "shift"]
+	t_selections = transformation_keys .=> transformation_keys
 	# lookup_element = Dict(imgs_keys .=> imgs)
 	md"""
-	Distance :$(@bind distance_key Select(d_selections))	
+	Distance :$(@bind distance_key Select(d_selections))
+	
+	Transformation :$(@bind transformation_key Select(t_selections; default=transformation_keys[2]))
 	"""
 end
 
 # ╔═╡ 934ecd21-2d1b-447f-917e-a2c27da81402
 begin
-	nₚᵣₒⱼ = 2
 	Random.seed!(12345)
+	nₚᵣₒⱼ = 10
 	wᵦ = get_distributional_slice(X, Y, nₚᵣₒⱼ, distance_key)
-	# ℓₛₑ = mse(vₛ,vₜ)
-	vₜ = sort(wᵦ'*Y, dims=2)
-	vₛ = sort(wᵦ'*X, dims=2)
-	Δv = vₜ-vₛ
-	Xₜ = X
-	for iter in 1:nₚᵣₒⱼ
-		Δμ = mean(Y,dims=2)-mean(Xₜ,dims=2)
-		back_proj = (wᵦ[:,iter]*Δv[iter,:]')
-		Xₜ = Xₜ.+Δμ + back_proj/nₚᵣₒⱼ
+	X₀ = copy(X)
+	Xₜ = zeros(size(X)[1],size(X)[2],nₚᵣₒⱼ)
+	transfer = zeros(size(X))
+	for i in 1:nₚᵣₒⱼ
+		Xₚ = X₀'*wᵦ[:,i]
+		Yₚ = Y'*wᵦ[:,i]
+		idx_vₛ = sortperm(Xₚ)
+		idx_vₜ = sortperm(Yₚ)
+		Δv = Yₚ[idx_vₜ] - Xₚ[idx_vₛ]
+ 		transfer[:,idx_vₛ] = wᵦ[:,i]*Δv'
+		if transformation_key == "sliced ot"
+			Xₜ[:,:,i] = clamp01!(X₀ + transfer)	
+		elseif transformation_key == "affine"
+			μX = mean(X₀,dims=2)
+			μY = mean(Y,dims=2)
+			σX = std(X₀,dims=2)
+			σY = std(Y,dims=2)
+			Xₜ[:,:,i] = clamp01!((X₀.-μX).*(σY./σX).+μY + transfer)
+		elseif transformation_key == "shift"
+			Δμ = mean(Y,dims=2) - mean(X₀,dims=2)
+			Δσ = std(Y,dims=2)./std(X₀,dims=2)
+			Xₜ[:,:,i] = clamp01!((X₀.+Δμ) + transfer)
+		end
+		X₀ = Xₜ[:,:,i]
 	end
-	Xₜ = colorview(RGB, clamp01!(reshape(Xₜ, (color, height, width))))
-	mosaicview(source, Xₜ; nrow=1)
+	
+	new_image = reshape(mean(Xₜ,dims=3), (color, height, width))
+	mosaicview(source, colorview(RGB, new_image), target; nrow=1)
 end
 
 # ╔═╡ Cell order:
+# ╟─51cebec0-6dc8-418e-b515-612284bf6191
 # ╟─3bb5ad9e-c64b-11eb-10bf-6fec84dec527
+# ╟─c9ccc5a2-7ac1-4101-bc1f-52cb3c3675c3
+# ╟─14750130-5ba3-4630-ad7a-a09bfb7aa1e6
 # ╟─8e376434-6577-4a58-8017-66d9310550d6
 # ╠═80f303a5-8de1-4158-af09-d164e34636eb
 # ╠═5508fd26-287f-4a2c-883d-288659f1a0e2

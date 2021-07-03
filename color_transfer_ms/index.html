@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="/optimal_transport/css/jtd.css">
   <link rel="icon" href="/optimal_transport/assets/c2_white.png">
 
-   <title>Home page</title>  
+   <title>color_transfer_ms</title>  
 </head>
 <body>                      <!-- closed in foot.html -->
 <div class="page-wrap">   <!-- closed in foot.html -->
@@ -23,8 +23,8 @@
     <input type="checkbox" id="show-menu" role="button">
     <div class="menu" id="side-menu">
       <ul class="menu-list">
-        <li class="menu-list-item active"><a href="/optimal_transport/" class="menu-list-link active">Home</a>
-        <li class="menu-list-item "><a href="/optimal_transport/color_transfer/" class="menu-list-link ">Color transfer</a>
+        <li class="menu-list-item "><a href="/optimal_transport/" class="menu-list-link ">Home</a>
+        <li class="menu-list-item active"><a href="/optimal_transport/color_transfer/" class="menu-list-link ">Color transfer</a>
         <li class="menu-list-item "><a href="/optimal_transport/notebooks/" class="menu-list-link ">Notebooks</a>
         <!-- <li class="menu-list-item {{ispage menu3/*}}active{{end}}"><a href="/optimal_transport/menu3/" class="menu-list-link {{ispage menu3}}active{{end}}">Tags</a> -->
         <!-- <li class="menu-list-item {{ispage color_transfer_eig/*}}active{{end}}"><a href="/optimal_transport/color_transfer_eig/" class="menu-list-link {{ispage color_transfer_eig}}active{{end}}">Notebook</a> -->
@@ -44,8 +44,41 @@
 
 
 <!-- Content appended here (in class franklin-content) -->
-<div class="franklin-content"><h1 id="optimal_transport"><a href="#optimal_transport">Optimal transport</a></h1>
-<p> </p>
+<div class="franklin-content"><style>
+.content {
+    max-width: 100%;
+    margin-right: 0px;
+    padding: 0px;
+    overflow-y: hidden;
+    height: 100vh;
+}
+.franklin-content {
+    padding: 0px;
+}
+.page-foot {
+    display: none;
+}
+.plutopage {
+    height: 100vh;
+}
+.smallscreenlink {
+    display: none;
+}
+@media (max-width: 768px) {
+    .franklin-content {
+        padding: 0px;
+    }
+}
+</style>
+
+<iframe width="100%" height="100%"
+src="../notebooks/color_transfer_ms.html"
+class="plutopage"
+frameborder="0"
+allow="accelerometer; ambient-light-sensor; autoplay; battery; camera; display-capture; document-domain; encrypted-media; execution-while-not-rendered; execution-while-out-of-viewport; fullscreen; geolocation; gyroscope; layout-animations; legacy-image-formats; magnetometer; microphone; midi; navigation-override; oversized-images; payment; picture-in-picture; publickey-credentials-get; sync-xhr; usb; wake-lock; screen-wake-lock; vr; web-share; xr-spatial-tracking"
+allowfullscreen></iframe>
+<a class="smallscreenlink" href="../notebooks/color_transfer_ms.html"></a>
+
 <div class="page-foot">
   <div class="copyright">
     &copy; César Claros. Last modified: July 02, 2021. Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.

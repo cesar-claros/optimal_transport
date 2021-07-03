@@ -7,7 +7,7 @@
    <link rel="stylesheet" href="/optimal_transport/libs/highlight/github.min.css">
    
     <link rel="stylesheet" href="/optimal_transport/css/jtd.css">
-  <link rel="icon" href="/optimal_transport/assets/favicon.ico">
+  <link rel="icon" href="/optimal_transport/assets/c2_white.png">
 
    <title>More goodies</title>  
 </head>
@@ -17,7 +17,7 @@
   <div class="side-bar">
     <div class="header">
       <a href="/optimal_transport/" class="title">
-        Franklin
+        Optimal transport
       </a>
     </div>
     <label for="show-menu" class="show-menu">MENU</label>
@@ -25,13 +25,10 @@
     <div class="menu" id="side-menu">
       <ul class="menu-list">
         <li class="menu-list-item "><a href="/optimal_transport/" class="menu-list-link ">Home</a>
-        <li class="menu-list-item "><a href="/optimal_transport/menu1/" class="menu-list-link ">Code blocks</a>
-        <li class="menu-list-item active"><a href="/optimal_transport/menu2/" class="menu-list-link active">More goodies</a>
-        <li class="menu-list-item "><a href="/optimal_transport/menu3/" class="menu-list-link ">Tags</a>
-        <li class="menu-list-item "><a href="/optimal_transport/color_transfer_eig/" class="menu-list-link ">Notebook</a>
-          <ul class="menu-list-child-list ">
-            <li class="menu-list-item "><a href="#" class="menu-list-link">Submenu</a>
-          </ul>
+        <li class="menu-list-item "><a href="/optimal_transport/color_transfer/" class="menu-list-link ">Color transfer</a>
+        <li class="menu-list-item "><a href="/optimal_transport/notebooks/" class="menu-list-link ">Notebooks</a>
+        <!-- <li class="menu-list-item {{ispage menu3/*}}active{{end}}"><a href="/optimal_transport/menu3/" class="menu-list-link {{ispage menu3}}active{{end}}">Tags</a> -->
+        <!-- <li class="menu-list-item {{ispage color_transfer_eig/*}}active{{end}}"><a href="/optimal_transport/color_transfer_eig/" class="menu-list-link {{ispage color_transfer_eig}}active{{end}}">Notebook</a> -->
       </ul>
     </div>
     <div class="footer">
@@ -53,11 +50,11 @@
 <h2 id="more_markdown_support"><a href="#more_markdown_support">More markdown support</a></h2>
 <p>The Julia Markdown parser in Julia&#39;s stdlib is not exactly complete and Franklin strives to bring useful extensions that are either defined in standard specs such as Common Mark or that just seem like useful extensions.</p>
 <ul>
-<li><p>indirect references for instance <a href="http://existentialcomics.com/">like so</a></p>
+<li><p>indirect references for instance &#91;like so&#93;</p>
 </li>
 </ul>
 <p> or also for images</p>
-<p><img src="https://upload.wikimedia.org/wikipedia/commons/9/90/Krul.svg" alt="some image"></p>
+<p>&#33;&#91;&#93;&#91;some image&#93;</p>
 <p>some people find that useful as it allows referring multiple times to the same link for instance.</p>
 
 <ul>
@@ -109,7 +106,7 @@ end</code></pre>
   var &#61; vname&#91;1&#93;
   return pagevar&#40;&quot;menu1&quot;, var&#41;
 end</code></pre>
-<p>Which you can use like this <code>&#123;&#123;m1fill title&#125;&#125;</code>: <strong>Franklin Example</strong>. Of course  in this specific case you could also have used <code>&#123;&#123;fill title menu1&#125;&#125;</code>: <strong>Code blocks</strong>.</p>
+<p>Which you can use like this <code>&#123;&#123;m1fill title&#125;&#125;</code>: <strong>Home page</strong>. Of course  in this specific case you could also have used <code>&#123;&#123;fill title menu1&#125;&#125;</code>: <strong>Code blocks</strong>.</p>
 <p>Of course these examples are not very useful, in practice you might want to use it to generate actual HTML in a specific way using Julia code. For instance you can use it to customise how <a href="/optimal_transport/menu3/#customising_tag_pages">tag pages look like</a>.</p>
 <p>A nice example of what you can do is in the <a href="https://juliasymbolics.github.io/SymbolicUtils.jl/api/">SymbolicUtils.jl manual</a> where they use a <code>hfun_</code> to generate HTML encapsulating the content of code docstrings, in a way doing something similar to what Documenter does. See <a href="https://github.com/JuliaSymbolics/SymbolicUtils.jl/blob/website/utils.jl">how they defined it</a>.</p>
 <p><strong>Note</strong>: the  output <strong>will not</strong> be reprocessed by Franklin, if you want to generate markdown which should be processed by Franklin, then use <code>return fd2html&#40;markdown, internal&#61;true&#41;</code> at the end.</p>
@@ -126,7 +123,7 @@ end</code></pre>
 <p><strong>Note</strong>: the output <strong>will be</strong> reprocessed by Franklin, if you want to avoid this, then escape the output by using <code>return &quot;~~~&quot; * s * &quot;~~~&quot;</code> and it will be plugged  in as is in the HTML.</p>
 <div class="page-foot">
   <div class="copyright">
-    &copy; Septimia Zenobia. Last modified: June 27, 2021. Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
+    &copy; César Claros. Last modified: 0001-01-01. Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
   </div>
 </div>
 </div><!-- CONTENT ENDS HERE -->

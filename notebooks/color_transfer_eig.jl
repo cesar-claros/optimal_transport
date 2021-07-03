@@ -32,11 +32,7 @@ begin
 			"Colors",
 			"PlutoUI",
 			"Random",
-			"Zygote"
-			# "Distances",
-			# "Clustering",
-			# "OptimalTransport",
-			# "Tulip"
+			"Zygote",
 			])
 end
 
@@ -58,10 +54,6 @@ begin
 	using PlutoUI
 	using Random
 	using Zygote: @adjoint
-	# using Distances
-	# using Clustering
-	# using OptimalTransport
-	# using Tulip
 end
 
 # ╔═╡ 4d90ea9e-1162-468d-9e63-17491b3a1941
@@ -71,7 +63,7 @@ TableOfContents()
 md"""
 # Max-sliced Bures Distance for Interpreting Discrepancies
 ## Color transfer task using max-sliced Bures with eigenvector optimization 
-**June, 2021**
+**July, 2021**
 """
 
 # ╔═╡ 80e7c955-69e0-40db-8c8e-97204be7842d
@@ -87,9 +79,9 @@ begin
 	selections = imgs_keys .=> imgs_keys
 	lookup_element = Dict(imgs_keys .=> imgs)
 	md"""
-	Source image:$(@bind url_source_key Select(selections))
+	Source image:$(@bind url_source_key Select(selections; default=imgs_keys[6]))
 	
-	Target image:$(@bind url_target_key Select(selections))
+	Target image:$(@bind url_target_key Select(selections; default=imgs_keys[5]))
 	"""
 end
 
@@ -115,7 +107,7 @@ begin
 end
 
 # ╔═╡ bde3952a-8f61-46d6-b912-d90041994877
-one_sided_bures_obj = (w,ρX,ρY) -> (√max(0.0,w⋅(ρX*w))-√max(0.0,w⋅(ρY*w)))/(w⋅w)
+one_sided_bures_obj = (w,ρX,ρY) -> (√(w⋅(ρX*w))-√(w⋅(ρY*w)))/(w⋅w)
 
 # ╔═╡ 2bc2ce9c-7949-4eb2-a128-224be25ca79c
 function one_sided_MSB_eig(ρX, ρY)
@@ -146,7 +138,7 @@ begin
 	t_selections = transformation_keys .=> transformation_keys
 	# lookup_element = Dict(imgs_keys .=> imgs)
 	md"""
-	Transformation :$(@bind transformation_key Select(t_selections))
+	Transformation :$(@bind transformation_key Select(t_selections; default=transformation_keys[2]))
 	"""
 end
 

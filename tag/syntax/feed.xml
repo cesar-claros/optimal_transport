@@ -1,7 +1,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 <channel>
-  <title><![CDATA[Franklin Template]]></title>
-  <description><![CDATA[Example website using Franklin
+  <title><![CDATA[Optimal Transport]]></title>
+  <description><![CDATA[Projects related with optimal transport
 ]]></description>
   <link>https://cesar-claros.github.io/</link>
   <atom:link href="https://cesar-claros.github.io/tag/syntax/feed.xml" rel="self" type="application/rss+xml" />

@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.14.7
+# v0.14.8
 
 using Markdown
 using InteractiveUtils
@@ -17,22 +17,23 @@ end
 begin
 	import Pkg
 	Pkg.activate(mktempdir())
-	Pkg.add(["Plots",
-			"GR", 
-			"Images",
-	 		"FileIO",
-			"ImageMagick",
-			"ImageIO",
-			"ImageTransformations",
-			"LinearAlgebra",
-			"Optim",
-	 		"Arpack",
-			"Flux",
-			"Statistics",
-			"Colors",
-			"PlutoUI",
-			"Random",
-			"Zygote",
+	Pkg.add([
+			Pkg.PackageSpec("Plots"),
+			Pkg.PackageSpec("GR"), 
+			Pkg.PackageSpec("Images"),
+			Pkg.PackageSpec("FileIO"),
+			Pkg.PackageSpec("ImageMagick"),
+			Pkg.PackageSpec("ImageIO"),
+			Pkg.PackageSpec("ImageTransformations"),
+			Pkg.PackageSpec("LinearAlgebra"),
+			Pkg.PackageSpec("Optim"),
+			Pkg.PackageSpec("Arpack"),
+			Pkg.PackageSpec(name="Flux", version="0.12.3"),
+			Pkg.PackageSpec("Statistics"),
+			Pkg.PackageSpec("Colors"),
+			Pkg.PackageSpec("PlutoUI"),
+			Pkg.PackageSpec("Random"),
+			Pkg.PackageSpec(name="Zygote", version="0.6.14"),
 			])
 end
 
@@ -61,8 +62,7 @@ TableOfContents()
 
 # ╔═╡ 6deed45c-3fb3-4bc6-99bd-2aeb6a17a3cd
 md"""
-# Max-sliced Bures Distance for Interpreting Discrepancies
-## Color transfer task using max-sliced Bures with eigenvector optimization 
+# Color transfer task using max-sliced Bures with eigenvector optimization 
 **July, 2021**
 """
 

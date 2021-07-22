@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.14.7
+# v0.14.8
 
 using Markdown
 using InteractiveUtils
@@ -17,22 +17,23 @@ end
 begin
 	import Pkg
 	Pkg.activate(mktempdir())
-	Pkg.add(["Plots",
-			"GR", 
-			"Images",
-	 		"FileIO",
-			"ImageMagick",
-			"ImageIO",
-			"ImageTransformations",
-			"LinearAlgebra",
-			"Optim",
-	 		"Arpack",
-			"Flux",
-			"Statistics",
-			"Colors",
-			"PlutoUI",
-			"Random",
-			"Zygote",
+	Pkg.add([
+			Pkg.PackageSpec("Plots"),
+			Pkg.PackageSpec("GR"), 
+			Pkg.PackageSpec("Images"),
+			Pkg.PackageSpec("FileIO"),
+			Pkg.PackageSpec("ImageMagick"),
+			Pkg.PackageSpec("ImageIO"),
+			Pkg.PackageSpec("ImageTransformations"),
+			Pkg.PackageSpec("LinearAlgebra"),
+			Pkg.PackageSpec("Optim"),
+			Pkg.PackageSpec("Arpack"),
+			Pkg.PackageSpec(name="Flux", version="0.12.3"),
+			Pkg.PackageSpec("Statistics"),
+			Pkg.PackageSpec("Colors"),
+			Pkg.PackageSpec("PlutoUI"),
+			Pkg.PackageSpec("Random"),
+			Pkg.PackageSpec(name="Zygote", version="0.6.14"),
 			])
 end
 
@@ -61,8 +62,7 @@ TableOfContents()
 
 # ╔═╡ 92190028-8dc1-4291-ada9-82a89bc3d6c8
 md"""
-# Max-sliced Bures Distance for Interpreting Discrepancies
-## Color transfer task using max-sliced Bures and Wasserstein 
+# Color transfer task using max-sliced Bures and Wasserstein 
 **July, 2021**
 """
 
@@ -202,7 +202,7 @@ end
 # ╟─cbde530a-2ffd-48df-ab36-674545a5dc01
 # ╟─bc53c4fa-c4ec-11eb-2781-63cf775569b7
 # ╟─e90053d5-08eb-485d-97e1-a4aabd9c9fc3
-# ╟─92190028-8dc1-4291-ada9-82a89bc3d6c8
+# ╠═92190028-8dc1-4291-ada9-82a89bc3d6c8
 # ╟─3a414199-1b11-4003-bb60-cf10eed619c9
 # ╠═87f0f40d-8db7-4628-8d66-b2cd753ebf7a
 # ╠═77abc963-6ed3-47b9-8b57-9763c9bc866b

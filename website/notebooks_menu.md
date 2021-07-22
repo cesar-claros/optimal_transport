@@ -11,5 +11,6 @@ rss = ""
 * [Max-sliced Bures with eigenvector optimization](/color_transfer_eig/)
 * [Max-sliced Bures and Wassertein with gradient descent](/color_transfer_ms/)
 * [Distributional sliced Bures and Wassertein with gradient descent](/color_transfer_ds/)
+* [Color transfer benchmark](/color_transfer_benchmark/)
 <!-- * [menu 2](/menu2/) -->
 <!-- * [menu 3](/menu3/) -->

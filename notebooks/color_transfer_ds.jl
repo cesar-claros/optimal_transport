@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.14.7
+# v0.14.8
 
 using Markdown
 using InteractiveUtils
@@ -17,22 +17,23 @@ end
 begin
 	import Pkg
 	Pkg.activate(mktempdir())
-	Pkg.add(["Plots",
-			"GR", 
-			"Images",
-	 		"FileIO",
-			"ImageMagick",
-			"ImageIO",
-			"ImageTransformations",
-			"LinearAlgebra",
-			"Optim",
-	 		"Arpack",
-			"Flux",
-			"Statistics",
-			"Colors",
-			"PlutoUI",
-			"Random",
-			"Zygote",
+	Pkg.add([
+			Pkg.PackageSpec("Plots"),
+			Pkg.PackageSpec("GR"), 
+			Pkg.PackageSpec("Images"),
+			Pkg.PackageSpec("FileIO"),
+			Pkg.PackageSpec("ImageMagick"),
+			Pkg.PackageSpec("ImageIO"),
+			Pkg.PackageSpec("ImageTransformations"),
+			Pkg.PackageSpec("LinearAlgebra"),
+			Pkg.PackageSpec("Optim"),
+			Pkg.PackageSpec("Arpack"),
+			Pkg.PackageSpec(name="Flux", version="0.12.3"),
+			Pkg.PackageSpec("Statistics"),
+			Pkg.PackageSpec("Colors"),
+			Pkg.PackageSpec("PlutoUI"),
+			Pkg.PackageSpec("Random"),
+			Pkg.PackageSpec(name="Zygote", version="0.6.14"),
 			])
 end
 
@@ -61,9 +62,14 @@ TableOfContents()
 
 # ╔═╡ 14750130-5ba3-4630-ad7a-a09bfb7aa1e6
 md"""
-# Max-sliced Bures Distance for Interpreting Discrepancies
-## Color transfer task using distributional sliced Bures and Wasserstein 
+# Color transfer task using distributional sliced Bures and Wasserstein 
 **July, 2021**
+"""
+
+# ╔═╡ 58b5ac5b-d485-4905-b4ee-b75fa658ce66
+md"""
+### Loading images and preprocess
+Two different images (source and target) have to be chosen in order to perform the color transfer task. For this notebook, there are 6 possible choices for the images, which allows 15 different combinations that can be explored. These images are downloaded from the web, so their dimensions (height and width) are not the same. Since our procedure requires the same number of pixels for both the source and the target, we need to resize the images to the same dimensions. In this case, we chose $512\times512$. 
 """
 
 # ╔═╡ 8e376434-6577-4a58-8017-66d9310550d6
@@ -95,6 +101,11 @@ begin
 	mosaicview(source, target; nrow=1)
 end
 
+# ╔═╡ c7953928-41cf-4b97-94d7-ca4377dbe5b6
+md"""
+When both images are loaded, their matrix representation is arranged as $color\times height\times width$, which is impractical for our calculations. Since we are interested in the images color information, we can reshape them as $color\times (height*width)$. In this matrix representation, each column is a different pixel and the rows characterize its color information.
+"""
+
 # ╔═╡ 5508fd26-287f-4a2c-883d-288659f1a0e2
 begin
 	X = channelview(float64.(source))
@@ -109,6 +120,25 @@ end
 	p = sortperm(x)
 	x[p], x̄ -> (x̄[invperm(p)],)
 end
+
+# ╔═╡ 3843e1a0-8a29-4e91-bc2d-a8ae7ae79794
+md"""
+### Sliced Bures and Wasserstein divergences
+The one-sided sliced Bures (SB) divergence is defined as:
+```math
+\begin{equation}
+E_{SB}(\mu||\nu;\textbf{w})=\sqrt{\mathbb{E}_{X\sim\mu}\left[\langle X,\textbf{w} \rangle^2 \right]} - \sqrt{\mathbb{E}_{Y\sim\nu}\left[\langle Y,\textbf{w} \rangle^2 \right]},
+\end{equation}
+```
+and the sliced Wasserstein (SW) divergence is described by:
+```math
+\begin{equation}
+E_{SW_p}(\mu||\nu;\textbf{w})=\inf_{\gamma\in\Gamma(\mu,\nu)}\left(\mathbb{E}_{(X,Y)\sim\gamma}\left[ \langle X-Y,\textbf{w} \rangle^p \right]\right)^{\frac{1}{p}},
+\end{equation}
+```
+where $\mu$ and $\nu$ are two probability measures, $\textbf{w}$ is the witness function, and $\Gamma(\mu,\nu)$ is the set of all joint distributions with
+marginals $\mu$ and $\nu$.
+"""
 
 # ╔═╡ 4ed3711d-29b9-4561-9f2b-121266e8ea95
 begin
@@ -175,7 +205,7 @@ end
 # ╔═╡ 934ecd21-2d1b-447f-917e-a2c27da81402
 begin
 	Random.seed!(12345)
-	nₚᵣₒⱼ = 10
+	nₚᵣₒⱼ = 1
 	wᵦ = get_distributional_slice(X, Y, nₚᵣₒⱼ, distance_key)
 	X₀ = copy(X)
 	Xₜ = zeros(size(X)[1],size(X)[2],nₚᵣₒⱼ)
@@ -212,10 +242,13 @@ end
 # ╟─3bb5ad9e-c64b-11eb-10bf-6fec84dec527
 # ╟─c9ccc5a2-7ac1-4101-bc1f-52cb3c3675c3
 # ╟─14750130-5ba3-4630-ad7a-a09bfb7aa1e6
+# ╠═58b5ac5b-d485-4905-b4ee-b75fa658ce66
 # ╟─8e376434-6577-4a58-8017-66d9310550d6
 # ╠═80f303a5-8de1-4158-af09-d164e34636eb
+# ╟─c7953928-41cf-4b97-94d7-ca4377dbe5b6
 # ╠═5508fd26-287f-4a2c-883d-288659f1a0e2
 # ╠═35f441e7-837a-423b-8b17-eaf522679d31
+# ╠═3843e1a0-8a29-4e91-bc2d-a8ae7ae79794
 # ╠═4ed3711d-29b9-4561-9f2b-121266e8ea95
 # ╠═1d1f8007-84f4-4bf6-8f3e-d965a3817cdd
 # ╠═ed1f3b23-e1c6-4677-8826-984b6fbcf05c
